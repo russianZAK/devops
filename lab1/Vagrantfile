@@ -1,0 +1,46 @@
+Vagrant.configure("2") do |config|
+
+  NUM_MANAGED_NODES = 2
+
+  def create_vm(config, name, ip, memory, cpus, is_controller = false)
+    config.vm.define name do |vm|
+      vm.vm.box = "ubuntu/focal64"
+      vm.vm.hostname = name
+      vm.vm.network "private_network", ip: ip
+      vm.vm.provider "virtualbox" do |vb|
+        vb.memory = memory
+        vb.cpus = cpus
+      end
+
+      if is_controller
+        vm.vm.provision "shell", inline: <<-SHELL
+          apt-get update
+          apt-get install -y software-properties-common
+          apt-add-repository --yes --update ppa:ansible/ansible
+          apt-get install -y ansible
+
+          mkdir -p /home/vagrant/ansible
+		  mkdir -p /home/vagrant/ansible/group_vars
+          touch /home/vagrant/ansible/ansible.cfg
+		  touch /home/vagrant/ansible/webservers.yml
+		  touch /home/vagrant/ansible/group_vars/app.yml
+          echo "[app]" > /home/vagrant/ansible/dev
+          #{(1..NUM_MANAGED_NODES).map { |i| "echo \"ubuntu#{i} ansible_host=192.168.56.20#{i} ansible_user=vagrant\" >> /home/vagrant/ansible/dev" }.join("\n")}
+          
+        SHELL
+      else
+        vm.vm.provision "shell", inline: <<-SHELL
+          apt-get update
+          apt-get install -y python3-minimal
+        SHELL
+      end
+    end
+  end
+
+  (1..NUM_MANAGED_NODES).each do |i|
+    create_vm(config, "ubuntu#{i}", "192.168.56.20#{i}", 1024, 1)
+  end
+  
+  create_vm(config, "controller", "192.168.56.199", 2048, 2, true)
+
+end
