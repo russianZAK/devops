@@ -20,10 +20,10 @@ Vagrant.configure("2") do |config|
           apt-get install -y ansible
 
           mkdir -p /home/vagrant/ansible
-		  mkdir -p /home/vagrant/ansible/group_vars
+	  mkdir -p /home/vagrant/ansible/group_vars
           touch /home/vagrant/ansible/ansible.cfg
-		  touch /home/vagrant/ansible/webservers.yml
-		  touch /home/vagrant/ansible/group_vars/app.yml
+	  touch /home/vagrant/ansible/webservers.yml
+	  touch /home/vagrant/ansible/group_vars/app.yml
           echo "[app]" > /home/vagrant/ansible/dev
           #{(1..NUM_MANAGED_NODES).map { |i| "echo \"ubuntu#{i} ansible_host=192.168.56.20#{i} ansible_user=vagrant\" >> /home/vagrant/ansible/dev" }.join("\n")}
           
