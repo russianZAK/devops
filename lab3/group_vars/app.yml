@@ -1,0 +1,6 @@
+docker_image: timurbabs/django
+container_name: django_app
+host_port: 8000
+container_port: 8000
+django_static_path: "/app/static"
+django_host_static_path: "/var/www/static"

@@ -1,0 +1,8 @@
+---
+roles:
+  - name: Docker
+    src: git+https://github.com/is-devops-4sem/ansible-docker-role.git
+    version: master
+  - name: nginx
+    src: git+https://github.com/is-devops-4sem/ansible-nginx-role.git
+    version: master
