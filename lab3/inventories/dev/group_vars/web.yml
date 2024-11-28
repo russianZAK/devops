@@ -1,0 +1,5 @@
+static_files_path: "/var/www/static/"
+proxy_pass_url: "http://192.168.56.201:8000"
+
+nginx_conf_template: "inventories/dev/templates/nginx.conf.j2"
+default_site_template: "inventories/dev/templates/default-site.conf.j2"

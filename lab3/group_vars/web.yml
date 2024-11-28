@@ -1,2 +1,0 @@
-static_files_path: "/var/www/static/"
-proxy_pass_url: "http://192.168.56.201:8000"

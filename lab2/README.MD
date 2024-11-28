@@ -113,7 +113,7 @@ roles:
         published_ports:
           - "{{ host_port }}:{{ container_port }}"
 ```
-`ansible-playbook -i dev webservers.yml` - запуск плейбука.
+`ansible-playbook -i inventories/dev/hosts webservers.yml` - запуск плейбука.
 
 ### 8. Проверка работы приложения
 После выполнения плейбука приложение доступно по адресу `http://localhost:8000/`.

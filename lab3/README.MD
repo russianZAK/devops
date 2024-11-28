@@ -98,7 +98,7 @@
 
 ![alt text](screenshots/12.png)
 
-`ansible-playbook -i dev webservers.yml` - запуск плейбука.
+`ansible-playbook -i inventories/dev/hosts webservers.yml` - запуск плейбука.
 
 ![alt text](screenshots/14.png)
 
