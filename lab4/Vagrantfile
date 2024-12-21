@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
 
-  NUM_MANAGED_NODES = 2
+  NUM_MANAGED_NODES = 3
 
   def create_vm(config, name, ip, memory, cpus, is_controller = false)
     config.vm.define name do |vm|
