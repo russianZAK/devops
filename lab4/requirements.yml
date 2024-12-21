@@ -1,0 +1,5 @@
+---
+roles:
+  - name: openvpnserver
+    src: git+https://github.com/is-devops-4sem/ansible-openvpn-role.git
+    version: master
