@@ -1,0 +1,14 @@
+---
+pg_master_host: "192.168.56.204"
+pg_users:
+  - name: app_user
+    password: app_password
+
+pg_databases:
+  - name: app_db
+    owner: app_user
+
+pg_replication:
+  enabled: true
+  replication_user: "replicator"
+  replication_password: "replica_pass"

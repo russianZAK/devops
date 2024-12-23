@@ -1,0 +1,5 @@
+---
+roles:
+  - name: postgresql
+    src: git+https://github.com/is-devops-4sem/ansible-postgresql-role.git
+    version: master

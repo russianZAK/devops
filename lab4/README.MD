@@ -216,7 +216,7 @@ OpenVPN использует эти файлы для установления �
 ```yaml
 - name: Apply OpenVPN server configuration
   template:
-    src: server.conf.j2
+    src: {{ openvpn_server_conf }}
     dest: /etc/openvpn/server.conf
   become: yes
 ```
@@ -247,10 +247,24 @@ OpenVPN использует эти файлы для установления �
 
 ### Создание клиентской конфигурации
 ```yaml
+- name: Ensure /tmp/artifacts directory exists
+  file:
+    path: /tmp/artifacts
+    state: directory
+    mode: '0755'
+  become: yes
+
 - name: Create client configuration file
   template:
-    src: client.ovpn.j2
-    dest: "client.ovpn"
+    src: "{{ openvpn_client_conf }}"
+    dest: "/tmp/artifacts/client.ovpn"
+  become: yes
+
+- name: Fetch client configuration to local machine
+  fetch:
+    src: "/tmp/artifacts/client.ovpn"
+    dest: "~/client.ovpn"
+    flat: yes
 ```
 **Цель:**
 Генерирует файл конфигурации клиента на основе шаблона.
@@ -326,6 +340,10 @@ openvpn_keepalive: "10 120" # Отправка пакетов каждые 10 с
 
 # Шифр, который будет использоваться для шифрования соединений
 openvpn_cipher: "AES-256-CBC" # Сильный симметричный алгоритм шифрования
+
+# Файлы конфигурации
+openvpn_server_conf: "server.conf.j2"
+openvpn_client_conf: "client.ovpn.j2"
 ```
 
 Был подготовлен шаблон для конфигурационного файла для сервера OpenVPN с настройками, а также клиента:
@@ -398,7 +416,7 @@ cipher {{ openvpn_cipher }}
 - `openvpn_status_log`: Путь к файлу статусного журнала.
 - `openvpn_cipher`: Шифр для защиты VPN-трафика.
 
-### 3. Тестировали роли стандартными тестами molecule test
+### 3. Тестировал роль стандартными тестами molecule test
 ![alt text](screenshots/10.png)
 ![alt text](screenshots/11.png)
 ![alt text](screenshots/12.png)
@@ -461,6 +479,6 @@ cipher {{ openvpn_cipher }}
 
 ![alt text](screenshots/21.png)
 
-А также создан файл с конфигурацией для клиента:
+А также создан файл с конфигурацией для клиента на хосте:
 
 ![alt text](screenshots/22.png)
